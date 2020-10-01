@@ -36,7 +36,7 @@
             <property name="hibernate.connection.username" value="system"/>
             <property name="hibernate.connection.password" value="oracle"/>
             <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:49161:XE"/>
-            <property name="hibernate.showSql" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
 

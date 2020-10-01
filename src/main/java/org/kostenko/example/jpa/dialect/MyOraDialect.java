@@ -1,7 +1,8 @@
 package org.kostenko.example.jpa.dialect;
 
 import org.hibernate.dialect.Oracle10gDialect;
-import org.hibernate.dialect.function.StandardSQLFunction;
+import org.hibernate.dialect.function.SQLFunctionTemplate;
+import org.hibernate.type.StandardBasicTypes;
 
 /**
  *
@@ -9,10 +10,8 @@ import org.hibernate.dialect.function.StandardSQLFunction;
  */
 public class MyOraDialect extends Oracle10gDialect {
 
-    @Override
-    protected void registerFunctions() {
-        registerFunction("over", new StandardSQLFunction("over"));
-        registerKeyword("over");
-        super.registerFunctions();
+    public MyOraDialect () {
+        super();
+        registerFunction("countover", new SQLFunctionTemplate(StandardBasicTypes.INTEGER, "count(*) over()"));
     }
 }
