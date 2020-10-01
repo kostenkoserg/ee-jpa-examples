@@ -48,7 +48,9 @@ public class OraBlogEntity {
     public void setBody(String body) {
         this.body = body;
     }
-    
-    
 
+    @Override
+    public String toString() {
+        return "OraBlogEntity{" + "id=" + id + ", title=" + title + ", body=" + body + '}';
+    }
 }
