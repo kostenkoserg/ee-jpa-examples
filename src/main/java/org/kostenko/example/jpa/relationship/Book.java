@@ -1,20 +1,16 @@
 package org.kostenko.example.jpa.relationship;
 
-import javax.persistence.ConstraintMode;
-import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
- *
  * @author kostenko
  */
 @Entity
@@ -27,13 +23,11 @@ public class Book {
 
     private String name;
 
-    /**
-    @JoinColumn(name = "authorId", insertable = false, updatable = false)
-    @ManyToOne(targetEntity = Author.class)
+    @JoinColumn(name = "author", insertable = false, updatable = false)
+    @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
     private Author author;
-    **/
-
-    @ManyToOne(targetEntity = Author.class)
+    
+    @Column(name = "author" /*,insertable = false, updatable = false*/)
     private long authorId;
 
     public long getId() {
@@ -60,9 +54,18 @@ public class Book {
         this.authorId = authorId;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        setAuthorId(author.getId());
+        this.author = author;
+    }
+
     @Override
     public String toString() {
-        return "Book{" + "id=" + id + ", name=" + name + ", authorId=" + authorId + '}';
+        return "Book{" + "id=" + id + ", name=" + name + ", authorId=";
     }
 
 }

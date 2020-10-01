@@ -6,6 +6,10 @@
     <persistence-unit name="myDSTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.kostenko.example.jpa.BlogEntity</class>
+        
+        <class>org.kostenko.example.jpa.relationship.Author</class>
+        <class>org.kostenko.example.jpa.relationship.Book</class>
+        
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
@@ -14,7 +18,26 @@
             <property name="hibernate.connection.username" value="sa"/>
             <property name="hibernate.connection.password" value="sa"/>
             <property name="hibernate.connection.url" value="jdbc:h2:mem:test"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <!--property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/-->
+        </properties>
+    </persistence-unit>
+    
+    
+    <persistence-unit name="myDSTestOra" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>org.kostenko.example.jpa.OraBlogEntity</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.dialect" value="org.kostenko.example.jpa.dialect.MyOraDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.connection.driver_class" value="oracle.jdbc.driver.OracleDriver"/>
+            <property name="hibernate.connection.username" value="system"/>
+            <property name="hibernate.connection.password" value="oracle"/>
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:49161:XE"/>
             <property name="hibernate.showSql" value="true"/>
         </properties>
     </persistence-unit>
+
 </persistence>

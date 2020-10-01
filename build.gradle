@@ -14,7 +14,9 @@ repositories {
 }
 dependencies {
     providedCompile "javax:javaee-api:${libraryVersions.javaee}"
-    testCompile "org.hibernate:hibernate-entitymanager:${libraryVersions.hibernateentitymanager}"
+    providedCompile "org.hibernate:hibernate-entitymanager:${libraryVersions.hibernateentitymanager}"
     testCompile "junit:junit:${libraryVersions.junit}"
     testCompile "com.h2database:h2:${libraryVersions.h2}"
+    testCompile "com.oracle.ojdbc:ojdbc10:19.3.0.0"
+
 }

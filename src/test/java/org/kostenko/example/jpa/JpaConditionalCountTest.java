@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.kostenko.example.jpa.relationship.Author;
+import org.kostenko.example.jpa.relationship.Book;
 
 /**
  * @author kostenko
@@ -61,4 +63,31 @@ public class JpaConditionalCountTest {
         Number result = em.createQuery(query).getSingleResult();
         Assert.assertEquals(5, result.intValue());
     }
+
+    @Test
+    public void relationManyToOneTest() {
+        
+        em.getTransaction().begin();
+
+        Author author = new Author();
+        author.setName("A Name");
+        em.persist(author);
+
+        Book book = new Book();
+        book.setName("Book Name");
+        book.setAuthor(author);
+        em.persist(book);
+
+        em.getTransaction().commit();
+        
+        List <Book> books =
+            em.createQuery("FROM Book", Book.class).getResultList();
+        
+        for (Book b : books) {
+            System.out.println("Bookd:" + b.getName());
+            System.out.println("AuthorId:" + b.getAuthorId());
+        }
+
+    }
+
 }
