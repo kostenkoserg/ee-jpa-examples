@@ -1,5 +1,6 @@
 package org.kostenko.example.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -27,10 +28,27 @@ public class OraTest {
             System.out.println("Total:" + tp.get("cnt"));
         }
     }
+    
+    @Test
+    public void transformSelectToSafeIn() throws Exception {
+        EntityManager em = Persistence.createEntityManagerFactory("myDSTestOra").createEntityManager();
+        
+        List<Long> idsList = new ArrayList<>();
+        for (int i = 0; i < 1199; i++) {
+            idsList.add((long)i);
+        }
+        
+        Query q =  
+                em.createQuery("SELECT b FROM OraBlogEntity b WHERE b.id IN (:idsList)", OraBlogEntity.class)
+                .setParameter("idsList", idsList);
+        
+        List<OraBlogEntity> blogEntitys = q.getResultList();
+        System.out.println(blogEntitys.size());
+    }
 
     private void generateTestData(EntityManager em) {
         em.getTransaction().begin();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1001; i++) {
             OraBlogEntity ora = new OraBlogEntity();
             ora.setTitle("title" + i);
             ora.setBody("body" + i);
