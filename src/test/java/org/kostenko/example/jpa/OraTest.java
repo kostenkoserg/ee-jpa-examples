@@ -1,6 +1,7 @@
 package org.kostenko.example.jpa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -18,7 +19,7 @@ public class OraTest {
     public void countOver() throws Exception {
         EntityManager em = Persistence.createEntityManagerFactory("myDSTestOra").createEntityManager();
         this.generateTestData(em);
-        
+
         Query query =  em.createQuery("SELECT b as post, function('countover') as cnt FROM OraBlogEntity b", Tuple.class);
         query.setFirstResult(10);
         query.setMaxResults(5);
@@ -28,23 +29,53 @@ public class OraTest {
             System.out.println("Total:" + tp.get("cnt"));
         }
     }
-    
+
     @Test
     public void transformSelectToSafeIn() throws Exception {
         EntityManager em = Persistence.createEntityManagerFactory("myDSTestOra").createEntityManager();
-        
+
         List<Long> idsList = new ArrayList<>();
         for (int i = 0; i < 1199; i++) {
             idsList.add((long)i);
         }
-        
-        Query q =  
+
+        Query q =
                 em.createQuery("SELECT b FROM OraBlogEntity b WHERE b.id IN (:idsList)", OraBlogEntity.class)
                 .setParameter("idsList", idsList);
-        
+
         List<OraBlogEntity> blogEntitys = q.getResultList();
         System.out.println(blogEntitys.size());
     }
+
+    @Test
+    public void safeTupleIn1000Test() throws Exception {
+        EntityManager em = Persistence.createEntityManagerFactory("myDSTestOra").createEntityManager();
+        // this.generateTestData(em);
+        List<Long> idsList = new ArrayList<>();
+        for (int i = 0; i < 1111; i++) {
+            idsList.add((long)i);
+        }
+        Query query =  em.createQuery("SELECT b as post FROM OraBlogEntity b where (id, 0) in (function('safeTupleIn',:ids))", Tuple.class);
+        query.setParameter("ids", idsList);
+        List<Tuple> tpList = query.getResultList();
+        System.out.println(tpList.size());
+    }
+
+    @Test
+    public void safeInFunction1000Test() throws Exception {
+        EntityManager em = Persistence.createEntityManagerFactory("myDSTestOra").createEntityManager();
+        // this.generateTestData(em);
+        List<Long> idsList = new ArrayList<>();
+        for (int i = 0; i < 1111; i++) {
+            idsList.add((long)i);
+        }
+        Query query =  em.createQuery("SELECT b as post FROM OraBlogEntity b where id in (function('safeIn', id, :ids))", Tuple.class);
+        query.setParameter("ids", idsList);
+        List<Tuple> tpList = query.getResultList();
+        System.out.println(tpList.size());
+    }
+
+
 
     private void generateTestData(EntityManager em) {
         em.getTransaction().begin();
