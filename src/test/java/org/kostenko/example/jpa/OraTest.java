@@ -75,8 +75,6 @@ public class OraTest {
         System.out.println(tpList.size());
     }
 
-
-
     private void generateTestData(EntityManager em) {
         em.getTransaction().begin();
         for (int i = 0; i < 1001; i++) {

@@ -37,7 +37,7 @@
             <property name="hibernate.connection.password" value="oracle"/>
             <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:49161:XE"/>
             <property name="hibernate.show_sql" value="true"/>
-            <!--property name="hibernate.ejb.interceptor" value="org.kostenko.example.jpa.dialect.SafeInInterceptor" /-->
+            <property name="hibernate.ejb.interceptor" value="org.kostenko.example.jpa.dialect.SafeInInterceptor" />
         </properties>
     </persistence-unit>
 
