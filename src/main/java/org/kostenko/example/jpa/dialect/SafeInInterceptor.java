@@ -10,7 +10,7 @@ import org.hibernate.EmptyInterceptor;
  */
 public class SafeInInterceptor extends EmptyInterceptor {
 
-    private final static Pattern pattern = Pattern.compile("[^\\s]+\\s+in\\s*\\(\\s*\\?[^\\(]*\\)", Pattern.CASE_INSENSITIVE);
+    private final static Pattern pattern = Pattern.compile("[^\\s\\(]+\\s+in\\s*\\([\\?\\,\\s]*\\)", Pattern.CASE_INSENSITIVE);
     private final static int IN_CAUSE_LIMIT = 1000;
 
     @Override
